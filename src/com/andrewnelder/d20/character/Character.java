@@ -1,5 +1,14 @@
 package com.andrewnelder.d20.character;
 
+/**
+ * Project: d20Sandbox
+ * File: 	CharacterClass.java
+ * Purpose: Retrieve character bonus based on character's class and level
+ *
+ * @author  Andrew Nelder, May Pongpitpitak
+ * @version 0.1 	March 28, 2011
+ */
+
 import java.util.HashMap;
 
 import com.andrewnelder.d20.util.Exceptions.AttributeNotFoundException;
@@ -7,11 +16,11 @@ import com.andrewnelder.d20.util.Exceptions.AttributeNotFoundException;
 public class Character {
 
 	// Name, Race, Class
-	protected String name;
-	protected CharacterRace race;
+	protected String charName;
+	protected CharacterRace charRace;
+	protected CharacterClass charClass;
 	
 	// TODO: Add unimplemented features
-	//private Collection<CharacterClass> classes;
 	//private Collection<CharacterSkill> skills;
 
 	// Attributes
@@ -19,12 +28,13 @@ public class Character {
 		new String[] { "str", "dex", "int", "con", "wis", "cha" };
 	protected HashMap<String, Integer> attributes;
 
-	public Character(String characterName, CharacterRace characterRace) {
+	public Character(String characterName, String characterClass, int characterLevel, CharacterRace characterRace) {
 
-		name = characterName;
-		race = characterRace;
+		charName 	= characterName;
+		charRace 	= characterRace;
+		charClass 	= characterClass;
 
-		attributes = new HashMap<String, Integer>();
+		attributes 	= new HashMap<String, Integer>();
 		for (String attribute : ATTRIBUTE_LIST) {
 			attributes.put(attribute, 0);
 		}
@@ -32,7 +42,7 @@ public class Character {
 	}
 
 	public Character(String name) {
-		this(name, new CharacterRace(CharacterRace.Race.HUMAN));
+		this(name, "Barbarian", 1, new CharacterRace(CharacterRace.Race.HUMAN));
 	}
 
 	public void setAttribute(String attributeKey, int attributeValue) throws AttributeNotFoundException {
@@ -54,7 +64,7 @@ public class Character {
 			try {
 				out.put(attributeKey,
 						attributes.get(attributeKey)
-							+ race.getRacialModifier(attributeKey));
+							+ charRace.getRacialModifier(attributeKey));
 			} catch (AttributeNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -66,7 +76,14 @@ public class Character {
 	}
 
 	public static void main(String[] args) {
-		Character ch = new Character("Broerd", new CharacterRace(
+		
+		// TODO: User input information
+		String charName  = "Broerd";
+		String charClass = "Wizard";
+		int charLevel	 = 7;
+		
+		// Create a new character
+		Character ch = new Character(charName, charClass, charLevel, new CharacterRace(
 				CharacterRace.Race.GNOME));
 
 		for (String attribute : ATTRIBUTE_LIST) {
@@ -77,7 +94,7 @@ public class Character {
 				e.printStackTrace();
 			}
 		}
-		
+				
 		HashMap<String, Integer> attributes = ch.getAttributes();
 		System.out.println(attributes);
 	}
