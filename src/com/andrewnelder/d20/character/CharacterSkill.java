@@ -1,13 +1,13 @@
 package com.andrewnelder.d20.character;
-
+/*
 import java.sql.*;
 import java.util.*;
 import com.andrewnelder.d20.srd.resources.*;
-
+*/
 /**
  * Project: d20Sandbox
  * File: 	CharacterSkill.java
- * Purpose: Retrieve character bonus based on character's class and level
+ * Purpose: Unsure -- Manage skill calls and display rolls require?
  *
  * @author  May Pongpitpitak
  * @version 0.1 	July 4, 2011
@@ -15,9 +15,7 @@ import com.andrewnelder.d20.srd.resources.*;
 
 public class CharacterSkill {
 	
-	private List<String> skillList;
+	// Call skillInformation from SkillReferece
+		
 	
-	public List<String> getSkill() {
-		return this.skillList;		
-	}
 }

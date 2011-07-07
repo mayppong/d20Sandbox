@@ -3,7 +3,7 @@ package com.andrewnelder.d20.character;
 /**
  * Project: d20Sandbox
  * File: 	CharacterClass.java
- * Purpose: Retrieve character bonus based on character's class and level
+ * Purpose: Create and store character's race, and bonuses
  *
  * @author  Andrew Nelder
  * @version 0.1 	March 28, 2011

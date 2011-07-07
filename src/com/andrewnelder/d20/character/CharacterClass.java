@@ -3,10 +3,11 @@ package com.andrewnelder.d20.character;
 /**
  * Project: d20Sandbox
  * File: 	CharacterClass.java
- * Purpose: Retrieve character bonus based on character's class and level
+ * Purpose: Retrieve from database and store character's 
+ * 			class name, class level and bonuses
  *
  * @author  May Pongpitpitak
- * @version 0.1 	July 3, 2011
+ * @version 0.1 	July 6, 2011
  */
 
 import java.sql.*;
@@ -19,30 +20,21 @@ public class CharacterClass {
 	/* -----------------  
 		The variables 
 		----------------- */
-	private String charClass;
-	private int charLevel;
-	private HashMap<String, Integer> classBonus;
-	private ArrayList<String> classList;
+	
+	private String 						charClassName;
+	private int 						charClassLevel;
+	private HashMap<String, Integer> 	charClassBonus;
 	
 	
 	
-	protected void setClassList() {
-		// TODO: Generate a list of class from database
-	}
+	/* -----------------  
+		CharacterClass 
+		---------------- */
 	
-	public ArrayList<String> getClassList() {
-		return this.classList;
- 	}
-	
-	
-	CharacterClass(String charClass, int charLevel, HashMap<String, Integer> classBonus) {
-		this.charClass = charClass;
-		
-	}
-	CharacterClass(String charClass, int charLevel){
-		setClassBonus(charClass, charLevel);
-		this.classBonus = getClassBonus();
-		CharacterClass(charClass, charLevel, classBonus);
+	CharacterClass(String charClassName, int charClassLevel) {
+		this.charClassName  	= charClassName;
+		this.charClassLevel 	= charClassLevel;
+		setcharClassBonus(charClassName, charClassLevel);
 	}
 	
 	
@@ -50,12 +42,8 @@ public class CharacterClass {
 	/* -----------------  
 		The setters 
 		---------------- */
-	public void setCharClass(String charClass, int charLevel) {
-		this.charClass = charClass;
-		setClassBonus(charClass, charLevel);
-	}
 	
-	protected void setClassBonus(String charClass, int charLevel) {
+	protected void setcharClassBonus(String charClassName, int charClassNameLevel) {
 		/**
 		 * This function takes the character's class and level and return a hash map of bonuses
 		 * return as (baseAtkBonus 1, baseAtkBonus 2, baseAtkBonus 3, baseAtkBonus 4, fortSave, refSave, willSave)
@@ -65,9 +53,9 @@ public class CharacterClass {
 			Connection connt = srd.getConnection();	
 			try {	
 				PreparedStatement stmt = connt.prepareStatement("SELECT name, level FROM class_table WHERE name = ? AND level = ?");
-				stmt.setString(0, charClass);
-				stmt.setInt(1, charLevel);
-				ResultSet resultData = stmt.executeQuery();
+				stmt.setString(0, charClassName);
+				stmt.setInt(1, charClassNameLevel);
+				ResultSet resultData   = stmt.executeQuery();
 				
 				// Separate the attack bonuses
 				while(resultData.next()){
@@ -75,15 +63,15 @@ public class CharacterClass {
 					Scanner baseAtkBonus = new Scanner(resultData.getString("base_atk_bonus"));
 					for(int atkNum = 1; atkNum == 4; atkNum++) {
 						if(baseAtkBonus.hasNextInt()) {
-							this.classBonus.put("baseAtkBonus "+ atkNum, baseAtkBonus.nextInt());
+							this.charClassBonus.put("baseAtkBonus "+ atkNum, baseAtkBonus.nextInt());
 						}
 						else{
-							this.classBonus.put("baseAtkBonus "+ atkNum, 0);
+							this.charClassBonus.put("baseAtkBonus "+ atkNum, 0);
 						}
 					}
-					this.classBonus.put("fortSave", Integer.parseInt(resultData.getString("fort_save")));
-					this.classBonus.put("refSave",  Integer.parseInt(resultData.getString("ref_save")));
-					this.classBonus.put("willSave", Integer.parseInt(resultData.getString("will_save")));
+					this.charClassBonus.put("fortSave", Integer.parseInt(resultData.getString("fort_save")));
+					this.charClassBonus.put("refSave",  Integer.parseInt(resultData.getString("ref_save")));
+					this.charClassBonus.put("willSave", Integer.parseInt(resultData.getString("will_save")));
 				}
 			}
 			finally {
@@ -100,17 +88,21 @@ public class CharacterClass {
 	}
 	
 	
+	
 	/* -----------------  
 		The getters 
 		---------------- */
-	public String getCharClass() {
-		return this.charClass;
+	
+	public String getcharClassName() {
+		return this.charClassName;
 	}
 	
-	public HashMap<String, Integer> getClassBonus() {
-		return this.classBonus;
+	public int getCharClassLevel() {
+		return this.charClassLevel;
 	}
-
-
+	
+	public HashMap<String, Integer> getcharClassBonus() {
+		return this.charClassBonus;
+	}
 
 }

@@ -23,6 +23,7 @@ import java.util.HashMap;
  * 
  * @author andrewnelder
  */
+
 public class SkillReference {
 	
 	public static HashMap<String, SkillInformation> SKILLS;

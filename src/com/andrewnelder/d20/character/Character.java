@@ -15,19 +15,27 @@ import com.andrewnelder.d20.util.Exceptions.AttributeNotFoundException;
 
 public class Character {
 
-	// Name, Race, Class
-	protected String charName;
-	protected CharacterRace charRace;
-	protected CharacterClass charClass;
+	/* -----------------  
+		The variables 
+		----------------- */
 	
-	// TODO: Add unimplemented features
-	//private Collection<CharacterSkill> skills;
-
-	// Attributes
+	protected String 			charName;
+	protected CharacterRace 	charRace;
+	protected String 			charClass;
+	
 	protected static final String[] ATTRIBUTE_LIST = 
 		new String[] { "str", "dex", "int", "con", "wis", "cha" };
 	protected HashMap<String, Integer> attributes;
+	
+	// TODO: Add skill related features
+	//private Collection<CharacterSkill> skills;
 
+	
+	
+	/* -----------------  
+		Character object 
+		----------------- */
+	
 	public Character(String characterName, String characterClass, int characterLevel, CharacterRace characterRace) {
 
 		charName 	= characterName;
@@ -40,11 +48,19 @@ public class Character {
 		}
 
 	}
-
+	
+	// Over-loading
 	public Character(String name) {
+		// String[] charClass = CharacterClass.getClassList();
 		this(name, "Barbarian", 1, new CharacterRace(CharacterRace.Race.HUMAN));
 	}
 
+	
+	
+	/* -----------------  
+		The setters 
+		----------------- */
+	
 	public void setAttribute(String attributeKey, int attributeValue) throws AttributeNotFoundException {
 
 		if (!attributes.keySet().contains(attributeKey)) {
@@ -55,7 +71,13 @@ public class Character {
 		attributes.put(attributeKey, attributeValue);
 
 	}
-
+	
+	
+	
+	/* -----------------  
+		The getters 
+		----------------- */
+	
 	public HashMap<String, Integer> getAttributes() {
 
 		HashMap<String, Integer> out = new HashMap<String, Integer>();
@@ -75,6 +97,12 @@ public class Character {
 
 	}
 
+	
+	
+	/* -----------------  
+		Main method 
+		----------------- */
+	
 	public static void main(String[] args) {
 		
 		// TODO: User input information
